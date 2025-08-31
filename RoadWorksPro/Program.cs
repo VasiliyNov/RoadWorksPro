@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RoadWorksPro.Data;
 using RoadWorksPro.Models.Entities;
+using RoadWorksPro.Services;
 
 namespace RoadWorksPro
 {
@@ -13,6 +14,15 @@ namespace RoadWorksPro
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Add HttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
+
+            // Add Cart Service
+            builder.Services.AddScoped<ICartService, CartService>();
+
+            // Add Newtonsoft.Json for session serialization
+            builder.Services.AddControllers().AddNewtonsoftJson();
 
             // Add Entity Framework and SQLite
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

@@ -46,6 +46,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="bg-gray-50" x-data="{ mobileMenu: false, cartCount: 0 }">
+    @Html.AntiForgeryToken()
     <div class="min-h-screen flex flex-col">
         @* Navigation *@
         <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
