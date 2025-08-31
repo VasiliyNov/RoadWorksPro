@@ -1,32 +1,374 @@
-﻿@{
+﻿@model RoadWorksPro.Models.ViewModels.HomeViewModel
+@{
     ViewData["Title"] = "Головна";
 }
 
-<div class="py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">
-                Ласкаво просимо до РоадПро
-            </h1>
-            <p class="text-xl text-gray-600 mb-8">
-                Професійні дорожні роботи та якісна продукція
-            </p>
-            <div class="flex gap-4 justify-center">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
-                    Наші послуги
-                </button>
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition">
-                    Каталог товарів
-                </button>
+@* Hero Section with Slider *@
+<section class="relative">
+    <div class="swiper heroSwiper h-[500px] md:h-[600px]">
+        <div class="swiper-wrapper">
+            @* Slide 1 *@
+            <div class="swiper-slide relative">
+                <div class="absolute inset-0 hero-gradient opacity-90"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white px-4 max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Професійні дорожні роботи</h1>
+                        <p class="text-xl md:text-2xl mb-8 opacity-90">Якість, якій довіряють</p>
+                        <a href="/Services" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition transform hover:scale-105">
+                            Наші послуги
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @* Slide 2 *@
+            <div class="swiper-slide relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-700 opacity-90"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white px-4 max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Дорожня розмітка будь-якої складності</h1>
+                        <p class="text-xl md:text-2xl mb-8 opacity-90">Сучасне обладнання та матеріали</p>
+                        <a href="/Products" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition transform hover:scale-105">
+                            Дивитися каталог
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @* Slide 3 *@
+            <div class="swiper-slide relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-700 opacity-90"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-center text-white px-4 max-w-4xl">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Дорожні знаки та обладнання</h1>
+                        <p class="text-xl md:text-2xl mb-8 opacity-90">Сертифікована продукція від виробника</p>
+                        <a href="#contacts" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition transform hover:scale-105">
+                            Зв'язатися з нами
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next text-white"></div>
+        <div class="swiper-button-prev text-white"></div>
+    </div>
+</section>
 
-        @* Test Alpine.js *@
-        <div class="mt-12 p-6 bg-white rounded-lg shadow" x-data="{ count: 0 }">
-            <p class="text-lg mb-4">Тест Alpine.js:</p>
-            <button type="button" x-on:click="count++" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                Клікнули: <span x-text="count"></span> разів
-            </button>
+@* Advantages *@
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-10 w-10 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Гарантія якості</h3>
+                <p class="text-gray-600">Всі роботи з гарантією до 5 років</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-orange-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-10 w-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Швидкі терміни</h3>
+                <p class="text-gray-600">Виконуємо роботи точно в строк</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-10 w-10 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Досвідчена команда</h3>
+                <p class="text-gray-600">Більше 15 років у сфері</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-purple-100 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-10 w-10 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Найкращі ціни</h3>
+                <p class="text-gray-600">Конкурентні ціни на ринку</p>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+@* Services from DB *@
+@if (Model.Services.Any())
+{
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Наші послуги</h2>
+                <p class="text-xl text-gray-600">Повний спектр дорожніх робіт</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @foreach (var service in Model.Services)
+                {
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                        <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                            <svg class="h-20 w-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">@service.Name</h3>
+                            <p class="text-gray-600 mb-4">@service.Description?.Substring(0, Math.Min(service.Description.Length, 100))...</p>
+                            <p class="text-lg font-semibold text-blue-700 mb-4">@service.PriceInfo</p>
+                            <a href="/Services" class="text-blue-700 font-semibold hover:text-blue-900 transition">
+                                Детальніше →
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* Featured Products from DB *@
+@if (Model.FeaturedProducts.Any())
+{
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Популярні товари</h2>
+                <p class="text-xl text-gray-600">Сертифікована дорожня продукція</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                @foreach (var product in Model.FeaturedProducts)
+                {
+                    <div class="bg-white border rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
+                        <div class="h-48 bg-gray-100 flex items-center justify-center">
+                            <svg class="h-20 w-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold mb-2">@product.Name</h4>
+                            <p class="text-sm text-gray-600 mb-1">@product.Dimensions</p>
+                            <p class="text-sm text-gray-500 mb-3">@product.Material</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xl font-bold text-blue-700">₴ @product.Price</span>
+                                <button class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded transition add-to-cart"
+                                        data-product-id="@product.Id">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="text-center mt-8">
+                <a href="/Products" class="inline-block bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-lg transition">
+                    Весь каталог
+                </a>
+            </div>
+        </div>
+    </section>
+}
+
+@* Clients Section *@
+@if (Model.Clients.Any())
+{
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Наші клієнти</h2>
+                <p class="text-xl text-gray-600">Компанії, які довіряють нам</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
+                @foreach (var client in Model.Clients)
+                {
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <div class="h-20 flex items-center justify-center">
+                            <span class="text-gray-600 font-semibold">@client.Name</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@* About Section *@
+<section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Про компанію РоадПро</h2>
+                <p class="text-lg text-gray-600 mb-4">
+                    Ми працюємо на ринку дорожніх робіт більше 15 років і за цей час реалізували сотні успішних проектів по всій Україні.
+                </p>
+                <p class="text-lg text-gray-600 mb-6">
+                    Наша команда - це досвідчені фахівці, які використовують сучасне обладнання та якісні матеріали для досягнення найкращих результатів.
+                </p>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-700">500+</div>
+                        <div class="text-sm text-gray-600">Виконаних проектів</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-700">15+</div>
+                        <div class="text-sm text-gray-600">Років досвіду</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-700">50+</div>
+                        <div class="text-sm text-gray-600">Спеціалістів</div>
+                    </div>
+                </div>
+                <a href="#contacts" class="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Отримати консультацію
+                </a>
+            </div>
+            <div class="relative">
+                <div class="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
+                    <svg class="h-32 w-32 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-blue-700 text-white p-6 rounded-lg shadow-xl max-w-xs">
+                    <div class="text-2xl font-bold mb-2">Гарантія якості</div>
+                    <div class="text-sm">Всі наші роботи сертифіковані та відповідають державним стандартам</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* CTA Section *@
+<section class="py-16 bg-gradient-to-r from-blue-700 to-blue-900">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            Потрібна консультація з дорожніх робіт?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8">
+            Залиште заявку і ми зв'яжемося з вами протягом 15 хвилин
+        </p>
+        <form class="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto" id="quickContactForm">
+            <input type="tel"
+                   name="phone"
+                   placeholder="Ваш телефон"
+                   required
+                   class="px-4 py-3 rounded-lg flex-1 text-gray-900">
+            <button type="submit"
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-lg transition transform hover:scale-105">
+                Надіслати заявку
+            </button>
+        </form>
+    </div>
+</section>
+
+@* Contacts Section *@
+<section id="contacts" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Контакти</h2>
+            <p class="text-xl text-gray-600">Ми завжди на зв'язку</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-8 w-8 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Телефон</h3>
+                <p class="text-gray-600">+380 (50) 123-45-67</p>
+                <p class="text-gray-600">+380 (67) 987-65-43</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-8 w-8 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Email</h3>
+                <p class="text-gray-600">info@roadpro.ua</p>
+                <p class="text-gray-600">sales@roadpro.ua</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                    <svg class="h-8 w-8 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Адреса</h3>
+                <p class="text-gray-600">м. Дніпро, вул. Промислова, 15</p>
+                <p class="text-gray-600">Пн-Пт: 9:00 - 18:00</p>
+            </div>
+        </div>
+        @* Map placeholder *@
+        <div class="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
+            <div class="text-center">
+                <svg class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                <p class="text-gray-500">Карта буде підключена</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Initialize Swiper
+        document.addEventListener('DOMContentLoaded', function() {
+            const swiper = new Swiper('.heroSwiper', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                }
+            });
+        });
+
+        // Add to cart functionality (placeholder)
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                // TODO: Implement AJAX call to add to cart
+                alert('Товар додано до кошика!');
+            });
+        });
+
+        // Quick contact form
+        document.getElementById('quickContactForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: Implement AJAX call to send contact request
+            alert('Дякуємо! Ми зв\'яжемося з вами найближчим часом.');
+            this.reset();
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+}

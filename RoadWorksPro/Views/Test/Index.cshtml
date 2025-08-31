@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Тест БД";
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Перевірка бази даних</h1>
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-2xl font-bold text-blue-600">@ViewBag.ProductCount</div>
+                <div class="text-gray-600">Товарів</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-2xl font-bold text-green-600">@ViewBag.ServiceCount</div>
+                <div class="text-gray-600">Послуг</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-2xl font-bold text-orange-600">@ViewBag.OrderCount</div>
+                <div class="text-gray-600">Замовлень</div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <div class="text-2xl font-bold text-purple-600">@ViewBag.AdminCount</div>
+                <div class="text-gray-600">Адмінів</div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Товари в БД:</h2>
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Назва</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ціна</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Розміри</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var product in ViewBag.Products)
+                        {
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">@product.Name</td>
+                                <td class="px-6 py-4 whitespace-nowrap">₴ @product.Price</td>
+                                <td class="px-6 py-4 whitespace-nowrap">@product.Dimensions</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Services -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Послуги в БД:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach (var service in ViewBag.Services)
+                {
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="font-bold mb-2">@service.Name</h3>
+                        <p class="text-gray-600 text-sm mb-2">@service.PriceInfo</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p class="text-blue-800">
+                <strong>Дані адміністратора для входу:</strong><br>
+                Email: admin@roadpro.ua<br>
+                Пароль: Admin123!
+            </p>
+        </div>
+    </div>
+</div>
