@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Головна";
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                Ласкаво просимо до РоадПро
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">
+                Професійні дорожні роботи та якісна продукція
+            </p>
+            <div class="flex gap-4 justify-center">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Наші послуги
+                </button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Каталог товарів
+                </button>
+            </div>
+        </div>
+
+        @* Test Alpine.js *@
+        <div class="mt-12 p-6 bg-white rounded-lg shadow" x-data="{ count: 0 }">
+            <p class="text-lg mb-4">Тест Alpine.js:</p>
+            <button type="button" x-on:click="count++" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                Клікнули: <span x-text="count"></span> разів
+            </button>
+        </div>
+    </div>
+</div>
