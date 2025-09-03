@@ -30,20 +30,28 @@ namespace RoadWorksPro.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    return Json(new { success = false, message = "Товар не знайдено" });
+                }
+
+                _cartService.AddToCart(product.Id, product.Name, product.Price);
+                var cartCount = _cartService.GetCart().TotalItems;
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Товар додано до кошика",
+                    cartCount = cartCount
+                });
             }
-
-            _cartService.AddToCart(product.Id, product.Name, product.Price);
-
-            return Json(new
+            catch (Exception ex)
             {
-                success = true,
-                message = "Товар додано до кошика",
-                cartCount = _cartService.GetCart().TotalItems
-            });
+                return Json(new { success = false, message = "Помилка при додаванні товару" });
+            }
         }
     }
 }
