@@ -1,0 +1,192 @@
+﻿@model List<RoadWorksPro.Models.Entities.RoadService>
+@{
+    ViewData["Title"] = "Наші послуги";
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @* Header *@
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Наші послуги</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Професійні дорожні роботи з гарантією якості. Працюємо по всій Україні з 2009 року.
+            </p>
+        </div>
+
+        @* Services Grid *@
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach (var service in Model)
+            {
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover group">
+                    @* Service Image or Gradient *@
+                    <div class="h-56 relative overflow-hidden">
+                        @if (!string.IsNullOrEmpty(service.ImagePath))
+                        {
+                            <img src="@service.ImagePath" alt="@service.Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        }
+                        else
+                        {
+                            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+                                <svg class="h-24 w-24 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                </svg>
+                            </div>
+                        }
+                        @* Price Badge *@
+                        @if (!string.IsNullOrEmpty(service.PriceInfo))
+                        {
+                            <div class="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                                @service.PriceInfo
+                            </div>
+                        }
+                    </div>
+
+                    @* Service Content *@
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">@service.Name</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-4">@service.Description</p>
+
+                        @* Features List *@
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="h-4 w-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Гарантія якості робіт
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="h-4 w-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Сертифіковані матеріали
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <svg class="h-4 w-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Досвідчені спеціалісти
+                            </div>
+                        </div>
+
+                        @* CTA Button *@
+                        <button onclick="scrollToForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
+                            Замовити послугу
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-12">
+                <svg class="h-24 w-24 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <p class="text-xl text-gray-500">Послуги тимчасово недоступні</p>
+            </div>
+        }
+
+        @* Why Choose Us Section *@
+        <div class="mt-20 bg-gray-50 rounded-2xl p-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Чому обирають нас?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">15+ років досвіду</h3>
+                    <p class="text-sm text-gray-600">Працюємо з 2009 року</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="h-8 w-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Швидке виконання</h3>
+                    <p class="text-sm text-gray-600">Дотримуємось термінів</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Гарантія 5 років</h3>
+                    <p class="text-sm text-gray-600">На всі види робіт</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">50+ спеціалістів</h3>
+                    <p class="text-sm text-gray-600">Кваліфікована команда</p>
+                </div>
+            </div>
+        </div>
+
+        @* Contact Form Section *@
+        <div id="contact-form" class="mt-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Замовити консультацію</h2>
+                <p class="mb-8 opacity-90">Залиште заявку і наш менеджер зв'яжеться з вами протягом 15 хвилин</p>
+
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-4" id="serviceContactForm">
+                    <input type="text"
+                           name="name"
+                           placeholder="Ваше ім'я"
+                           required
+                           class="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500">
+
+                    <input type="tel"
+                           name="phone"
+                           placeholder="Телефон"
+                           required
+                           class="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500">
+
+                    <select name="service"
+                            class="px-4 py-3 rounded-lg text-gray-900 md:col-span-2">
+                        <option value="">Оберіть послугу</option>
+                        @foreach (var service in Model)
+                        {
+                            <option value="@service.Name">@service.Name</option>
+                        }
+                    </select>
+
+                    <textarea name="message"
+                              placeholder="Ваше повідомлення"
+                              rows="3"
+                              class="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 md:col-span-2"></textarea>
+
+                    <button type="submit"
+                            class="md:col-span-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                        Відправити заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function scrollToForm() {
+            document.getElementById('contact-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        document.getElementById('serviceContactForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: Implement AJAX call to send request
+            alert('Дякуємо за заявку! Ми зв\'яжемося з вами найближчим часом.');
+            this.reset();
+        });
+    </script>
+}

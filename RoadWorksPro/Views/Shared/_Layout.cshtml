@@ -33,19 +33,47 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-            .card-hover:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
 
         .swiper-pagination-bullet-active {
             background: #f97316 !important;
+        }
+
+        .add-to-cart-btn {
+            min-width: 7rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .add-to-cart-btn svg {
+            flex-shrink: 0;
+        }
+
+        @@keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
     </style>
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body class="bg-gray-50" x-data="{ mobileMenu: false, cartCount: 0 }">
+<body class="bg-gray-50" x-data="{ mobileMenu: false, cartCount: 0 }" x-init="
+            fetch('/Cart/GetCartCount')
+                .then(r=> r.json())
+                .then(d => cartCount = d.count);
+            window.addEventListener('cart-updated', (e) => cartCount = e.detail.count)
+">
     @Html.AntiForgeryToken()
     <div class="min-h-screen flex flex-col">
         @* Navigation *@
@@ -75,9 +103,10 @@
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
-                            <span x-show="cartCount > 0"
-                                  x-text="cartCount"
-                                  class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold">
+                            <span id="cart-counter"
+                                  class="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-bold"
+                                  style="display: none;">
+                                0
                             </span>
                         </a>
                         @* Phone *@
@@ -162,5 +191,59 @@
     </div>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Cart management
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart count on page load
+            updateCartCount();
+        });
+
+        function updateCartCount() {
+            fetch('/Cart/GetCartCount')
+                .then(response => response.json())
+                .then(data => {
+                    const counter = document.getElementById('cart-counter');
+                    // Don't show the floating counter when user is on the Cart page or Checkout page
+                    const path = window.location.pathname.toLowerCase();
+                    const isCartOrCheckout = path.startsWith('/cart') || path.startsWith('/order/checkout');
+                    if (counter) {
+                        if (isCartOrCheckout) {
+                            counter.style.display = 'none';
+                            return;
+                        }
+
+                        if (data.count > 0) {
+                            counter.textContent = data.count;
+                            counter.style.display = 'flex';
+                        } else {
+                            counter.style.display = 'none';
+                        }
+                    }
+                })
+                .catch(error => console.error('Error loading cart count:', error));
+        }
+
+        // Global function to update cart display
+        window.updateCartDisplay = function(count) {
+            const counter = document.getElementById('cart-counter');
+            const path = window.location.pathname.toLowerCase();
+            const isCartOrCheckout = path.startsWith('/cart') || path.startsWith('/order/checkout');
+            if (counter) {
+                // If we're on the cart or checkout page, keep the header counter hidden regardless of updates
+                if (isCartOrCheckout) {
+                    counter.style.display = 'none';
+                    return;
+                }
+
+                if (count > 0) {
+                    counter.textContent = count;
+                    counter.style.display = 'flex';
+                } else {
+                    counter.style.display = 'none';
+                }
+            }
+        }
+    </script>
 </body>
 </html>

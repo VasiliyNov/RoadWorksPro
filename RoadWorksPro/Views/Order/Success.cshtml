@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Замовлення прийнято";
+    var orderId = ViewBag.OrderId;
+}
+
+<div class="py-12">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            @* Success Icon *@
+            <div class="w-24 h-24 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Дякуємо за замовлення!</h1>
+
+            <p class="text-lg text-gray-600 mb-2">
+                Ваше замовлення <span class="font-semibold">#@orderId</span> успішно оформлено.
+            </p>
+
+            <p class="text-gray-600 mb-8">
+                Найближчим часом наш менеджер зв'яжеться з вами для уточнення деталей доставки та оплати.
+            </p>
+
+            <div class="border-t pt-6">
+                <h2 class="text-lg font-semibold mb-4">Що далі?</h2>
+                <div class="text-left max-w-md mx-auto space-y-3">
+                    <div class="flex items-start">
+                        <span class="text-blue-500 mr-3">1.</span>
+                        <span class="text-gray-600">Менеджер зв'яжеться з вами протягом 15 хвилин</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-blue-500 mr-3">2.</span>
+                        <span class="text-gray-600">Уточнить деталі замовлення та адресу</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-blue-500 mr-3">3.</span>
+                        <span class="text-gray-600">Узгодить зручний спосіб оплати</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 space-x-4">
+                <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    На головну
+                </a>
+                <a href="/Products" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg transition">
+                    Продовжити покупки
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

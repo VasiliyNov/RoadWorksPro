@@ -1,0 +1,241 @@
+﻿@model RoadWorksPro.Models.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Кошик";
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Кошик</h1>
+
+        @if (Model.Items.Any())
+        {
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                @* Cart Items *@
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow">
+                        @foreach (var item in Model.Items)
+                        {
+                            <div class="p-6 border-b last:border-b-0 cart-item" data-product-id="@item.ProductId">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-900">@item.ProductName</h3>
+                                        <p class="text-gray-600 mt-1">₴ @item.Price.ToString("N2")</p>
+                                    </div>
+
+                                    @* Quantity controls *@
+                                    <div class="flex items-center space-x-3">
+                                        <button class="quantity-decrease bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full transition"
+                                                data-product-id="@item.ProductId">
+                                            <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                                            </svg>
+                                        </button>
+
+                                        <input type="number"
+                                               class="quantity-input w-16 text-center border rounded py-1"
+                                               value="@item.Quantity"
+                                               min="1"
+                                               data-product-id="@item.ProductId">
+
+                                        <button class="quantity-increase bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full transition"
+                                                data-product-id="@item.ProductId">
+                                            <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    @* Subtotal *@
+                                    <div class="ml-6 text-right">
+                                        <p class="text-lg font-semibold text-gray-900 item-subtotal">
+                                            ₴ @item.Subtotal.ToString("N2")
+                                        </p>
+                                    </div>
+
+                                    @* Remove button *@
+                                    <button class="ml-4 text-red-500 hover:text-red-700 remove-item transition"
+                                            data-product-id="@item.ProductId">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    @* Action buttons *@
+                    <div class="mt-6 flex justify-between">
+                        <a href="/Products" class="text-blue-600 hover:text-blue-800 font-medium transition">
+                            ← Продовжити покупки
+                        </a>
+                        <form asp-action="Clear" method="post" class="inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="text-red-600 hover:text-red-800 font-medium transition"
+                                    onclick="return confirm('Ви впевнені, що хочете очистити кошик?')">
+                                Очистити кошик
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                @* Order Summary *@
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow p-6 sticky top-20">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Підсумок замовлення</h2>
+
+                        <div class="space-y-3 mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Товарів:</span>
+                                <span class="font-medium cart-count">@Model.TotalItems</span>
+                            </div>
+                            <div class="border-t pt-3">
+                                <div class="flex justify-between text-lg font-bold">
+                                    <span>Всього:</span>
+                                    <span class="text-blue-700 cart-total">₴ @Model.Total.ToString("N2")</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="/Order/Checkout" class="block w-full bg-orange-500 hover:bg-orange-600 text-white text-center font-bold py-3 px-6 rounded-lg transition transform hover:scale-105">
+                            Оформити замовлення
+                        </a>
+
+                        <div class="mt-4 text-sm text-gray-500 text-center">
+                            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Безпечне оформлення
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            @* Empty cart *@
+            <div class="text-center py-12">
+                <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-2">Кошик порожній</h2>
+                <p class="text-gray-600 mb-8">Додайте товари з каталогу</p>
+                <a href="/Products" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Перейти до каталогу
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hide cart counter immediately when on cart page
+        (function() {
+            const counter = document.getElementById('cart-counter');
+            if (counter) {
+                counter.style.display = 'none';
+            }
+        })();
+
+        // Update quantity
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', async function() {
+                const productId = this.dataset.productId;
+                const quantity = parseInt(this.value);
+
+                if (quantity < 1) {
+                    this.value = 1;
+                    return;
+                }
+
+                await updateQuantity(productId, quantity);
+            });
+        });
+
+        // Increase quantity
+        document.querySelectorAll('.quantity-increase').forEach(button => {
+            button.addEventListener('click', async function() {
+                const productId = this.dataset.productId;
+                const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+                input.value = parseInt(input.value) + 1;
+                await updateQuantity(productId, parseInt(input.value));
+            });
+        });
+
+        // Decrease quantity
+        document.querySelectorAll('.quantity-decrease').forEach(button => {
+            button.addEventListener('click', async function() {
+                const productId = this.dataset.productId;
+                const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+                const newValue = parseInt(input.value) - 1;
+                if (newValue >= 1) {
+                    input.value = newValue;
+                    await updateQuantity(productId, newValue);
+                }
+            });
+        });
+
+        // Remove item
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', async function() {
+                if (!confirm('Видалити товар з кошика?')) return;
+
+                const productId = this.dataset.productId;
+                const response = await fetch(`/Cart/RemoveItem?productId=${productId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Remove item from DOM
+                    document.querySelector(`.cart-item[data-product-id="${productId}"]`).remove();
+
+                    // Update totals
+                    updateCartDisplay(data);
+
+                    // If cart is empty, reload page
+                    if (data.cartCount === 0) {
+                        location.reload();
+                    }
+                }
+            });
+        });
+
+        async function updateQuantity(productId, quantity) {
+            const response = await fetch(`/Cart/UpdateQuantity?productId=${productId}&quantity=${quantity}`, {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                // Update subtotal for this item
+                const itemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
+                if (itemElement) {
+                    itemElement.querySelector('.item-subtotal').textContent = `₴ ${data.itemSubtotal.toFixed(2)}`;
+                }
+
+                // Update cart totals
+                updateCartDisplay(data);
+            }
+        }
+
+        function updateCartDisplay(data) {
+            // Update summary
+            document.querySelector('.cart-total').textContent = `₴ ${data.cartTotal.toFixed(2)}`;
+            document.querySelector('.cart-count').textContent = data.cartCount;
+
+            // Keep cart counter hidden on cart page
+            const counter = document.getElementById('cart-counter');
+            if (counter) {
+                counter.style.display = 'none';
+            }
+        }
+    </script>
+}
