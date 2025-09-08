@@ -1,0 +1,122 @@
+﻿@model RoadWorksPro.Models.Entities.PortfolioItem
+@{
+    ViewData["Title"] = "Видалення роботи";
+    Layout = "_AdminLayout";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-red-600 mb-2">Видалення роботи з портфоліо</h2>
+            <p class="text-gray-600">Ви впевнені, що хочете видалити цю роботу? Цю дію неможливо відмінити.</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <h3 class="font-semibold mb-3">Інформація про роботу:</h3>
+
+            @if (!string.IsNullOrEmpty(Model.MainImagePath))
+            {
+                <div class="mb-4">
+                    <img src="@Model.MainImagePath" alt="@Model.Title" class="h-32 w-auto object-cover rounded-lg shadow">
+                </div>
+            }
+
+            <dl class="space-y-2">
+                <div class="flex justify-between">
+                    <dt class="text-gray-500">Назва:</dt>
+                    <dd class="font-semibold">@Model.Title</dd>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Location))
+                {
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Локація:</dt>
+                        <dd>@Model.Location</dd>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.WorkVolume))
+                {
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Обсяг робіт:</dt>
+                        <dd>@Model.WorkVolume</dd>
+                    </div>
+                }
+                <div class="flex justify-between">
+                    <dt class="text-gray-500">Категорія:</dt>
+                    <dd>
+                        @switch (Model.Category)
+                        {
+                            case "road-marking":
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Розмітка</span>
+                                break;
+                            case "asphalt":
+                                <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Асфальт</span>
+                                break;
+                            case "signs":
+                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Знаки</span>
+                                break;
+                            default:
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">Інше</span>
+                                break;
+                        }
+                    </dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="text-gray-500">Дата виконання:</dt>
+                    <dd>@Model.CompletedDate.ToString("dd.MM.yyyy")</dd>
+                </div>
+                <div class="flex justify-between">
+                    <dt class="text-gray-500">Статус:</dt>
+                    <dd>
+                        @if (Model.IsActive)
+                        {
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Активна
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                Неактивна
+                            </span>
+                        }
+                    </dd>
+                </div>
+                @if (Model.IsFeatured)
+                {
+                    <div>
+                        <span class="text-yellow-600 font-semibold">⭐ Рекомендована робота</span>
+                    </div>
+                }
+            </dl>
+        </div>
+
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <svg class="h-5 w-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div class="text-sm text-yellow-800">
+                    <strong>Увага!</strong> Видалення роботи також видалить всі пов'язані зображення.
+                    @if (Model.AdditionalImages.Any())
+                    {
+                        <br />
+                        <span>Буде видалено @Model.AdditionalImages.Count() додаткових зображень.</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between">
+            <a href="/Admin/Portfolio" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition">
+                Скасувати
+            </a>
+
+            <form method="post" action="/Admin/Portfolio/Delete/@Model.Id">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Видалити роботу
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

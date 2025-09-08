@@ -33,7 +33,13 @@ namespace RoadWorksPro.Controllers
                     .Take(4)
                     .ToListAsync(),
 
-                // Sample clients - later can be moved to DB
+                PortfolioItems = await _context.PortfolioItems
+                    .Where(p => p.IsActive && p.IsFeatured)
+                    .OrderBy(p => p.DisplayOrder)
+                    .Take(6)
+                    .ToListAsync(),
+
+                // Sample clients
                 Clients = new List<CompanyClient>
                 {
                     new() { Name = "Укравтодор", LogoUrl = "/images/clients/ukravtodor.png" },

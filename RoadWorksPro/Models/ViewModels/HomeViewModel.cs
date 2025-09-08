@@ -7,6 +7,7 @@ namespace RoadWorksPro.Models.ViewModels
         public List<RoadService> Services { get; set; } = new();
         public List<RoadProduct> FeaturedProducts { get; set; } = new();
         public List<CompanyClient> Clients { get; set; } = new();
+        public List<PortfolioItem> PortfolioItems { get; set; } = new();
     }
 
     public class CompanyClient

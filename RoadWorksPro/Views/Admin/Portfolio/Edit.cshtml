@@ -1,0 +1,182 @@
+﻿@model RoadWorksPro.Models.ViewModels.PortfolioEditViewModel
+@{
+    ViewData["Title"] = "Редагувати роботу";
+    Layout = "_AdminLayout";
+}
+
+<div class="mb-6">
+    <a href="/Admin/Portfolio" class="text-blue-600 hover:text-blue-800">← Повернутися до списку</a>
+</div>
+
+<div class="max-w-4xl">
+    <div class="bg-white rounded-lg shadow p-6">
+        <h2 class="text-2xl font-bold mb-6">Редагувати роботу</h2>
+
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CurrentMainImagePath" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @* Title *@
+                <div class="md:col-span-2">
+                    <label asp-for="Title" class="block text-sm font-medium text-gray-700 mb-1">
+                        Назва проекту <span class="text-red-500">*</span>
+                    </label>
+                    <input asp-for="Title"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="Title" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Category *@
+                <div>
+                    <label asp-for="Category" class="block text-sm font-medium text-gray-700 mb-1">
+                        Категорія <span class="text-red-500">*</span>
+                    </label>
+                    <select asp-for="Category"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="road-marking">Дорожня розмітка</option>
+                        <option value="asphalt">Ремонт асфальту</option>
+                        <option value="signs">Встановлення знаків</option>
+                        <option value="other">Інше</option>
+                    </select>
+                    <span asp-validation-for="Category" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Location *@
+                <div>
+                    <label asp-for="Location" class="block text-sm font-medium text-gray-700 mb-1">
+                        Локація
+                    </label>
+                    <input asp-for="Location"
+                           placeholder="наприклад: м. Дніпро"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="Location" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Work Volume *@
+                <div>
+                    <label asp-for="WorkVolume" class="block text-sm font-medium text-gray-700 mb-1">
+                        Обсяг робіт
+                    </label>
+                    <input asp-for="WorkVolume"
+                           placeholder="наприклад: 1500 м²"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="WorkVolume" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Materials *@
+                <div>
+                    <label asp-for="Materials" class="block text-sm font-medium text-gray-700 mb-1">
+                        Матеріали
+                    </label>
+                    <input asp-for="Materials"
+                           placeholder="наприклад: Термопластик"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="Materials" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Completed Date *@
+                <div>
+                    <label asp-for="CompletedDate" class="block text-sm font-medium text-gray-700 mb-1">
+                        Дата виконання
+                    </label>
+                    <input asp-for="CompletedDate"
+                           type="date"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="CompletedDate" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Display Size *@
+                <div>
+                    <label asp-for="DisplaySize" class="block text-sm font-medium text-gray-700 mb-1">
+                        Розмір картки
+                    </label>
+                    <select asp-for="DisplaySize"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="0">Звичайний (1x1)</option>
+                        <option value="1">Широкий (2x1)</option>
+                        <option value="2">Високий (1x2)</option>
+                        <option value="3">Великий (2x2)</option>
+                    </select>
+                </div>
+
+                @* Display Order *@
+                <div>
+                    <label asp-for="DisplayOrder" class="block text-sm font-medium text-gray-700 mb-1">
+                        Порядок відображення
+                    </label>
+                    <input asp-for="DisplayOrder"
+                           type="number"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="DisplayOrder" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Description *@
+                <div class="md:col-span-2">
+                    <label asp-for="Description" class="block text-sm font-medium text-gray-700 mb-1">
+                        Опис проекту
+                    </label>
+                    <textarea asp-for="Description"
+                              rows="4"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+                </div>
+
+                @* Current Image *@
+                @if (!string.IsNullOrEmpty(Model.CurrentMainImagePath))
+                {
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Поточне зображення
+                        </label>
+                        <div class="mt-2">
+                            <img src="@Model.CurrentMainImagePath" alt="Current image" class="h-48 w-auto object-cover rounded-lg shadow">
+                        </div>
+                    </div>
+                }
+
+                @* New Main Image *@
+                <div class="md:col-span-2">
+                    <label asp-for="MainImageFile" class="block text-sm font-medium text-gray-700 mb-1">
+                        Нове головне зображення (необов'язково)
+                    </label>
+                    <input asp-for="MainImageFile"
+                           type="file"
+                           accept="image/*"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span asp-validation-for="MainImageFile" class="text-red-500 text-sm"></span>
+                    <p class="text-xs text-gray-500 mt-1">Залиште порожнім, якщо не хочете змінювати зображення</p>
+                </div>
+
+                @* Checkboxes *@
+                <div>
+                    <label class="flex items-center">
+                        <input asp-for="IsFeatured" type="checkbox" class="mr-2">
+                        <span class="text-sm font-medium text-gray-700">Рекомендована робота</span>
+                    </label>
+                </div>
+
+                <div>
+                    <label class="flex items-center">
+                        <input asp-for="IsActive" type="checkbox" class="mr-2">
+                        <span class="text-sm font-medium text-gray-700">Активна (відображається на сайті)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end space-x-3">
+                <a href="/Admin/Portfolio" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                    Скасувати
+                </a>
+                <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+                    Зберегти зміни
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

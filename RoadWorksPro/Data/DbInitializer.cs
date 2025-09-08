@@ -154,7 +154,7 @@ namespace RoadWorksPro.Data
                         WorkVolume = "3500 м²",
                         Materials = "Термопластик, скляні мікросфери",
                         CompletedDate = DateTime.UtcNow.AddMonths(-2),
-                        MainImagePath = "/images/portfolio/parking-marking.jpg",
+                        MainImagePath = "https://via.placeholder.com/800x600/0EA5E9/ffffff?text=Portfolio",
                         DisplaySize = CardSize.Large,
                         IsFeatured = true,
                         IsActive = true
@@ -168,7 +168,7 @@ namespace RoadWorksPro.Data
                         WorkVolume = "2000 м²",
                         Materials = "Асфальтобетон, щебінь",
                         CompletedDate = DateTime.UtcNow.AddMonths(-1),
-                        MainImagePath = "/images/portfolio/road-repair.jpg",
+                        MainImagePath = "https://via.placeholder.com/800x600/0EA5E9/ffffff?text=Portfolio",
                         DisplaySize = CardSize.Normal,
                         IsActive = true
                     },
@@ -181,7 +181,7 @@ namespace RoadWorksPro.Data
                         WorkVolume = "25 знаків",
                         Materials = "Оцинкована сталь, світловідбиваюча плівка",
                         CompletedDate = DateTime.UtcNow.AddMonths(-3),
-                        MainImagePath = "/images/portfolio/road-signs.jpg",
+                        MainImagePath = "https://via.placeholder.com/800x600/0EA5E9/ffffff?text=Portfolio",
                         DisplaySize = CardSize.Normal,
                         IsActive = true
                     }
