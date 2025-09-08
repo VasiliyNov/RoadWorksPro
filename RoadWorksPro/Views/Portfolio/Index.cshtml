@@ -1,0 +1,165 @@
+﻿@model List<RoadWorksPro.Models.Entities.PortfolioItem>
+@{
+    ViewData["Title"] = "Наші роботи";
+    var currentCategory = ViewBag.CurrentCategory as string;
+}
+
+@section Styles {
+    <style>
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 1.5rem;
+        }
+
+        @@media (max-width: 1024px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @@media (max-width: 640px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+        }
+
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+        }
+    </style>
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @* Header *@
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Наші роботи</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Ми пишаємося кожним виконаним проектом. Ось деякі з наших останніх робіт.
+            </p>
+        </div>
+
+        @* Filter Buttons *@
+        <div class="flex flex-wrap justify-center gap-2 mb-12">
+            <a href="/Portfolio"
+               class="@(string.IsNullOrEmpty(currentCategory) ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
+                Всі роботи
+            </a>
+            <a href="/Portfolio?category=road-marking"
+               class="@(currentCategory == "road-marking" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
+                Дорожня розмітка
+            </a>
+            <a href="/Portfolio?category=asphalt"
+               class="@(currentCategory == "asphalt" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
+                Ремонт асфальту
+            </a>
+            <a href="/Portfolio?category=signs"
+               class="@(currentCategory == "signs" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
+                Встановлення знаків
+            </a>
+        </div>
+
+        @* Masonry Grid *@
+        <div class="masonry-grid">
+            @foreach (var item in Model)
+            {
+                var cardHeight = item.DisplaySize switch
+                {
+                    RoadWorksPro.Models.Entities.CardSize.Tall => "h-96",
+                    RoadWorksPro.Models.Entities.CardSize.Featured => "h-96",
+                    _ => "h-64"
+                };
+
+                <div class="masonry-item">
+                    <a href="/Portfolio/Details/@item.Id" class="group block relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 @cardHeight">
+                        @* Image *@
+                        <img src="@item.MainImagePath"
+                             alt="@item.Title"
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                             loading="lazy">
+
+                        @* Overlay *@
+                        <div class="absolute inset-0 portfolio-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            @* Category Badge *@
+                            <span class="inline-block self-start bg-orange-500 text-white text-xs px-3 py-1 rounded-full mb-3">
+                                @GetCategoryName(item.Category)
+                            </span>
+
+                            @* Title *@
+                            <h3 class="text-white text-xl font-bold mb-2">@item.Title</h3>
+
+                            @* Info *@
+                            <div class="flex items-center text-white/80 text-sm space-x-4">
+                                @if (!string.IsNullOrEmpty(item.Location))
+                                {
+                                    <span class="flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        @item.Location
+                                    </span>
+                                }
+                                @if (!string.IsNullOrEmpty(item.WorkVolume))
+                                {
+                                    <span>@item.WorkVolume</span>
+                                }
+                                <span>@item.CompletedDate.ToString("MMM yyyy")</span>
+                            </div>
+                        </div>
+
+                        @* Featured Badge *@
+                        @if (item.IsFeatured)
+                        {
+                            <div class="absolute top-4 right-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold shadow">
+                                ⭐ Рекомендуємо
+                            </div>
+                        }
+                    </a>
+                </div>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-20">
+                <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-xl text-gray-500">Роботи будуть додані найближчим часом</p>
+            </div>
+        }
+
+        @* CTA Section *@
+        <div class="mt-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white text-center">
+            <h2 class="text-3xl font-bold mb-4">Сподобались наші роботи?</h2>
+            <p class="text-xl mb-8 opacity-90">Замовте професійні дорожні роботи прямо зараз!</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/Services" class="bg-white text-blue-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition">
+                    Наші послуги
+                </a>
+                <a href="/#contacts" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg transition">
+                    Зв'язатися з нами
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetCategoryName(string category)
+    {
+        return category switch
+        {
+            "road-marking" => "Розмітка",
+            "asphalt" => "Асфальт",
+            "signs" => "Знаки",
+            _ => "Інше"
+        };
+    }
+}

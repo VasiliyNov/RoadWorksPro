@@ -1,0 +1,249 @@
+﻿@model RoadWorksPro.Models.Entities.PortfolioItem
+@{
+    ViewData["Title"] = Model.Title;
+    var relatedWorks = ViewBag.RelatedWorks as List<RoadWorksPro.Models.Entities.PortfolioItem>;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+}
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @* Breadcrumb *@
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm">
+                <li><a href="/" class="text-gray-500 hover:text-blue-700">Головна</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="/Portfolio" class="text-gray-500 hover:text-blue-700">Наші роботи</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900 font-medium">@Model.Title</li>
+            </ol>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            @* Main Content *@
+            <div class="lg:col-span-2">
+                @* Main Image *@
+                <div class="mb-6">
+                    <a href="@Model.MainImagePath" class="glightbox" data-gallery="gallery1">
+                        <img src="@Model.MainImagePath"
+                             alt="@Model.Title"
+                             class="w-full h-auto rounded-lg shadow-lg hover:shadow-2xl transition cursor-pointer">
+                    </a>
+                </div>
+
+                @* Additional Images Grid *@
+                @if (Model.AdditionalImages.Any())
+                {
+                    <div class="grid grid-cols-3 gap-4 mb-8">
+                        @foreach (var img in Model.AdditionalImages.OrderBy(i => i.DisplayOrder))
+                        {
+                            <a href="@img.ImagePath" class="glightbox" data-gallery="gallery1">
+                                <img src="@img.ImagePath"
+                                     alt="@img.Caption"
+                                     class="w-full h-32 object-cover rounded-lg hover:shadow-lg transition cursor-pointer">
+                            </a>
+                        }
+                    </div>
+                }
+
+                @* Description *@
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold mb-4">Опис проекту</h2>
+                        <p class="text-gray-600 whitespace-pre-line">@Model.Description</p>
+                    </div>
+                }
+            </div>
+
+            @* Sidebar *@
+            <div class="lg:col-span-1">
+                @* Project Info *@
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6 sticky top-20">
+                    <h1 class="text-2xl font-bold mb-6">@Model.Title</h1>
+
+                    <dl class="space-y-4">
+                        <div class="flex justify-between items-center pb-3 border-b">
+                            <dt class="text-gray-500">Категорія:</dt>
+                            <dd class="font-medium">
+                                @switch (Model.Category)
+                                {
+                                    case "road-marking":
+                                        <span>Дорожня розмітка</span>
+                                        break;
+                                    case "asphalt":
+                                        <span>Ремонт асфальту</span>
+                                        break;
+                                    case "signs":
+                                        <span>Встановлення знаків</span>
+                                        break;
+                                    default:
+                                        <span>Інше</span>
+                                        break;
+                                }
+                            </dd>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.Location))
+                        {
+                            <div class="flex justify-between items-center pb-3 border-b">
+                                <dt class="text-gray-500">Локація:</dt>
+                                <dd class="font-medium">@Model.Location</dd>
+                            </div>
+                        }
+
+                        <div class="flex justify-between items-center pb-3 border-b">
+                            <dt class="text-gray-500">Дата виконання:</dt>
+                            <dd class="font-medium">@Model.CompletedDate.ToString("MMMM yyyy")</dd>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.WorkVolume))
+                        {
+                            <div class="flex justify-between items-center pb-3 border-b">
+                                <dt class="text-gray-500">Обсяг робіт:</dt>
+                                <dd class="font-medium">@Model.WorkVolume</dd>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Materials))
+                        {
+                            <div class="flex justify-between items-center pb-3 border-b">
+                                <dt class="text-gray-500">Матеріали:</dt>
+                                <dd class="font-medium">@Model.Materials</dd>
+                            </div>
+                        }
+                    </dl>
+
+                    @* CTA *@
+                    <div class="mt-6 space-y-3">
+                        <button onclick="showOrderForm()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition">
+                            Замовити подібне
+                        </button>
+                        <a href="/Portfolio" class="block w-full text-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition">
+                            Всі роботи
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Related Works *@
+        @if (relatedWorks != null && relatedWorks.Any())
+        {
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-8">Схожі роботи</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @foreach (var work in relatedWorks)
+                    {
+                        <a href="/Portfolio/Details/@work.Id" class="group block relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition">
+                            <img src="@work.MainImagePath"
+                                 alt="@work.Title"
+                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                <div>
+                                    <h4 class="text-white font-bold">@work.Title</h4>
+                                    <p class="text-white/80 text-sm">@work.Location</p>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@* Order Modal *@
+<div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Замовити подібну роботу</h3>
+            <button onclick="closeOrderForm()" class="text-gray-500 hover:text-gray-700">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <form id="portfolioOrderForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="service" value="Проект: @Model.Title">
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ім'я *</label>
+                    <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Телефон *</label>
+                    <input type="tel" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Опис проекту</label>
+                    <textarea name="message" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                              placeholder="Опишіть ваш проект..."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition">
+                Відправити заявку
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script>
+        // Initialize lightbox
+        const lightbox = GLightbox({
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true
+        });
+
+        function showOrderForm() {
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeOrderForm() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        document.getElementById('portfolioOrderForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Відправляємо...';
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/Contact/ServiceRequest', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    this.reset();
+                    closeOrderForm();
+                } else {
+                    alert('Помилка: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Помилка відправки');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+    </script>
+}

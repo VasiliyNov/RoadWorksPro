@@ -30,12 +30,19 @@ namespace RoadWorksPro.Controllers
                 return NotFound();
             }
 
-            var service = await _context.Services.FirstOrDefaultAsync(s => s.Id == id);
+            var service = await _context.Services
+                .FirstOrDefaultAsync(s => s.Id == id && s.IsActive);
 
             if (service == null)
             {
                 return NotFound();
             }
+
+            // Get other services for navigation
+            ViewBag.OtherServices = await _context.Services
+                .Where(s => s.Id != id && s.IsActive)
+                .OrderBy(s => s.Id)
+                .ToListAsync();
 
             return View(service);
         }

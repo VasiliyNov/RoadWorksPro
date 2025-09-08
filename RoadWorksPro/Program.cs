@@ -21,6 +21,12 @@ namespace RoadWorksPro
             // Add Cart Service
             builder.Services.AddScoped<ICartService, CartService>();
 
+            // Add Email Service
+            builder.Services.AddScoped<IEmailService, EmailService>();
+
+            // Add Telegram Service
+            builder.Services.AddScoped<ITelegramService, TelegramService>();
+
             // Add Newtonsoft.Json for session serialization
             builder.Services.AddControllers().AddNewtonsoftJson();
 

@@ -140,6 +140,56 @@ namespace RoadWorksPro.Data
                 await context.Services.AddRangeAsync(services);
             }
 
+            // Add sample portfolio items if none exist
+            if (!context.PortfolioItems.Any())
+            {
+                var portfolioItems = new[]
+                {
+                    new PortfolioItem
+                    {
+                        Title = "Розмітка парковки ТРЦ Епіцентр",
+                        Location = "м. Дніпро",
+                        Description = "Виконано повну розмітку парковки на 500 місць. Використано термопластик білого та жовтого кольору.",
+                        Category = "road-marking",
+                        WorkVolume = "3500 м²",
+                        Materials = "Термопластик, скляні мікросфери",
+                        CompletedDate = DateTime.UtcNow.AddMonths(-2),
+                        MainImagePath = "/images/portfolio/parking-marking.jpg",
+                        DisplaySize = CardSize.Large,
+                        IsFeatured = true,
+                        IsActive = true
+                    },
+                    new PortfolioItem
+                    {
+                        Title = "Ремонт дороги по вул. Центральна",
+                        Location = "м. Дніпро",
+                        Description = "Капітальний ремонт дорожнього покриття з повною заміною асфальту.",
+                        Category = "asphalt",
+                        WorkVolume = "2000 м²",
+                        Materials = "Асфальтобетон, щебінь",
+                        CompletedDate = DateTime.UtcNow.AddMonths(-1),
+                        MainImagePath = "/images/portfolio/road-repair.jpg",
+                        DisplaySize = CardSize.Normal,
+                        IsActive = true
+                    },
+                    new PortfolioItem
+                    {
+                        Title = "Встановлення дорожніх знаків",
+                        Location = "м. Кам'янське",
+                        Description = "Встановлено 25 дорожніх знаків на новій ділянці дороги.",
+                        Category = "signs",
+                        WorkVolume = "25 знаків",
+                        Materials = "Оцинкована сталь, світловідбиваюча плівка",
+                        CompletedDate = DateTime.UtcNow.AddMonths(-3),
+                        MainImagePath = "/images/portfolio/road-signs.jpg",
+                        DisplaySize = CardSize.Normal,
+                        IsActive = true
+                    }
+                };
+
+                await context.PortfolioItems.AddRangeAsync(portfolioItems);
+            }
+
             // Add sample orders if none exist (for testing)
             if (!context.Orders.Any())
             {

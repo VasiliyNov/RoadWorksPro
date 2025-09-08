@@ -18,6 +18,10 @@ namespace RoadWorksPro.Data
 
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        public DbSet<PortfolioItem> PortfolioItems { get; set; }
+
+        public DbSet<PortfolioImage> PortfolioImages { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -47,6 +51,13 @@ namespace RoadWorksPro.Data
                 .WithMany()
                 .HasForeignKey(i => i.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // PortfolioItem to PortfolioImage relationship
+            builder.Entity<PortfolioImage>()
+                .HasOne(i => i.PortfolioItem)
+                .WithMany(p => p.AdditionalImages)
+                .HasForeignKey(i => i.PortfolioItemId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

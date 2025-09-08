@@ -250,16 +250,23 @@
             Залиште заявку і ми зв'яжемося з вами протягом 15 хвилин
         </p>
         <form class="flex flex-col md:flex-row gap-4 justify-center max-w-md mx-auto" id="quickContactForm">
+            @Html.AntiForgeryToken()
             <input type="tel"
                    name="phone"
                    placeholder="Ваш телефон"
                    required
+                   pattern="[+]?[0-9]{10,15}"
                    class="px-4 py-3 rounded-lg flex-1 text-gray-900">
             <button type="submit"
                     class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-3 rounded-lg transition transform hover:scale-105">
                 Надіслати заявку
             </button>
         </form>
+        <div id="quickFormMessage" class="mt-4 hidden">
+            <div class="bg-white/20 backdrop-blur rounded-lg p-3">
+                <p class="text-white font-medium"></p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -350,11 +357,47 @@
         });
 
         // Quick contact form
-        document.getElementById('quickContactForm')?.addEventListener('submit', function(e) {
+        document.getElementById('quickContactForm')?.addEventListener('submit', async function(e) {
             e.preventDefault();
-            // TODO: Implement AJAX call to send contact request
-            alert('Дякуємо! Ми зв\'яжемося з вами найближчим часом.');
-            this.reset();
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            const messageDiv = document.getElementById('quickFormMessage');
+            const messagePara = messageDiv.querySelector('p');
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Відправляємо...';
+
+            try {
+                const formData = new FormData(this);
+                const response = await fetch('/Contact/QuickContact', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                messageDiv.classList.remove('hidden');
+                messagePara.textContent = result.message;
+
+                if (result.success) {
+                    messageDiv.querySelector('div').className = 'bg-green-500/20 backdrop-blur rounded-lg p-3';
+                    this.reset();
+                    setTimeout(() => {
+                        messageDiv.classList.add('hidden');
+                    }, 5000);
+                } else {
+                    messageDiv.querySelector('div').className = 'bg-red-500/20 backdrop-blur rounded-lg p-3';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.classList.remove('hidden');
+                messageDiv.querySelector('div').className = 'bg-red-500/20 backdrop-blur rounded-lg p-3';
+                messagePara.textContent = 'Помилка відправки. Спробуйте ще раз.';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
         });
 
         // Smooth scroll for anchor links

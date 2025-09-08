@@ -53,5 +53,31 @@ namespace RoadWorksPro.Controllers
                 return Json(new { success = false, message = "Помилка при додаванні товару" });
             }
         }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Products
+                .FirstOrDefaultAsync(p => p.Id == id && p.IsActive);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // Get related products
+            ViewBag.RelatedProducts = await _context.Products
+                .Where(p => p.Id != id && p.IsActive)
+                .OrderBy(p => Guid.NewGuid())
+                .Take(4)
+                .ToListAsync();
+
+            ViewBag.Cart = _cartService.GetCart();
+            return View(product);
+        }
     }
 }
