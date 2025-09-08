@@ -74,18 +74,32 @@ namespace RoadWorksPro.Controllers
                 return NotFound();
             }
 
-            // Get related products - FIX: Load to memory first, then randomize
-            var relatedProducts = await _context.Products
-                .Where(p => p.Id != id && p.IsActive)
-                .ToListAsync(); // Load to memory first
-
-            // Now randomize in memory
-            ViewBag.RelatedProducts = relatedProducts
-                .OrderBy(p => Guid.NewGuid())
+            // Get related products from the same category first, then others
+            var relatedFromCategory = await _context.Products
+                .Where(p => p.Id != id && p.Category == product.Category && p.IsActive)
                 .Take(4)
-                .ToList();
+                .ToListAsync();
 
+            var count = relatedFromCategory.Count;
+
+            // If not enough products in the same category, add random from other categories
+            if (count < 4)
+            {
+                var otherProducts = await _context.Products
+                    .Where(p => p.Id != id && p.Category != product.Category && p.IsActive)
+                    .ToListAsync();
+
+                var additionalProducts = otherProducts
+                    .OrderBy(p => Guid.NewGuid())
+                    .Take(4 - count)
+                    .ToList();
+
+                relatedFromCategory.AddRange(additionalProducts);
+            }
+
+            ViewBag.RelatedProducts = relatedFromCategory;
             ViewBag.Cart = _cartService.GetCart();
+
             return View(product);
         }
     }
