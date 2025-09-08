@@ -38,13 +38,19 @@ namespace RoadWorksPro.Controllers
                 return NotFound();
             }
 
-            // Get other services for navigation
-            ViewBag.OtherServices = await _context.Services
+            // Get other services for navigation - FIX: Load to memory first
+            var otherServices = await _context.Services
                 .Where(s => s.Id != id && s.IsActive)
-                .OrderBy(s => s.Id)
-                .ToListAsync();
+                .ToListAsync(); // Load to memory first
+
+            // Now randomize or order in memory (depends on your needs)
+            ViewBag.OtherServices = otherServices
+                .OrderBy(s => Guid.NewGuid())
+                .Take(3)
+                .ToList();
 
             return View(service);
         }
+
     }
 }

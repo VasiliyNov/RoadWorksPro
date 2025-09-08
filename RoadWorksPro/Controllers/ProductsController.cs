@@ -69,12 +69,16 @@ namespace RoadWorksPro.Controllers
                 return NotFound();
             }
 
-            // Get related products
-            ViewBag.RelatedProducts = await _context.Products
+            // Get related products - FIX: Load to memory first, then randomize
+            var relatedProducts = await _context.Products
                 .Where(p => p.Id != id && p.IsActive)
+                .ToListAsync(); // Load to memory first
+
+            // Now randomize in memory
+            ViewBag.RelatedProducts = relatedProducts
                 .OrderBy(p => Guid.NewGuid())
                 .Take(4)
-                .ToListAsync();
+                .ToList();
 
             ViewBag.Cart = _cartService.GetCart();
             return View(product);

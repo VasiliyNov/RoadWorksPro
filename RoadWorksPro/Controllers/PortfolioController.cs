@@ -50,12 +50,16 @@ namespace RoadWorksPro.Controllers
                 return NotFound();
             }
 
-            // Get related works
-            ViewBag.RelatedWorks = await _context.PortfolioItems
+            // Get related works - FIX: Load to memory first
+            var relatedWorks = await _context.PortfolioItems
                 .Where(p => p.Id != id && p.Category == item.Category && p.IsActive)
+                .ToListAsync(); // Load to memory first
+
+            // Now randomize in memory
+            ViewBag.RelatedWorks = relatedWorks
                 .OrderBy(p => Guid.NewGuid())
                 .Take(3)
-                .ToListAsync();
+                .ToList();
 
             return View(item);
         }
