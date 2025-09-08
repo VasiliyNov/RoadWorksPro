@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Каталог товарів";
     var cart = ViewBag.Cart as RoadWorksPro.Models.ViewModels.CartViewModel;
+    var currentCategory = ViewBag.CurrentCategory as string;
 }
 
 <div class="py-12">
@@ -12,20 +13,32 @@
             <p class="text-gray-600">Сертифіковані товари від виробника</p>
         </div>
 
-        @* Filters (simple for now) *@
+        @* Category Filters *@
         <div class="mb-8 flex flex-wrap gap-2">
-            <button class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition">
+            <a href="/Products"
+               class="px-4 py-2 @(string.IsNullOrEmpty(currentCategory) ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
                 Всі товари
-            </button>
-            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+            </a>
+            <a href="/Products?category=road-signs"
+               class="px-4 py-2 @(currentCategory == "road-signs" ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
                 Дорожні знаки
-            </button>
-            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
-                Огородження
-            </button>
-            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
-                Світловідбивачі
-            </button>
+            </a>
+            <a href="/Products?category=mirrors"
+               class="px-4 py-2 @(currentCategory == "mirrors" ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
+                Дзеркала оглядові
+            </a>
+            <a href="/Products?category=metal-structures"
+               class="px-4 py-2 @(currentCategory == "metal-structures" ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
+                Металоконструкції
+            </a>
+            <a href="/Products?category=speed-bumps"
+               class="px-4 py-2 @(currentCategory == "speed-bumps" ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
+                Елементи зниження швидкості
+            </a>
+            <a href="/Products?category=other"
+               class="px-4 py-2 @(currentCategory == "other" ? "bg-blue-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") rounded-lg transition">
+                Інше
+            </a>
         </div>
 
         @* Products Grid *@

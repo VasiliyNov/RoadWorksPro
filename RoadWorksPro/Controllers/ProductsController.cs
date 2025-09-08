@@ -16,12 +16,17 @@ namespace RoadWorksPro.Controllers
             _cartService = cartService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? category = null)
         {
-            var products = await _context.Products
-                .Where(p => p.IsActive)
-                .OrderBy(p => p.Name)
-                .ToListAsync();
+            var query = _context.Products.Where(p => p.IsActive);
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                query = query.Where(p => p.Category == category);
+                ViewBag.CurrentCategory = category;
+            }
+
+            var products = await query.OrderBy(p => p.Name).ToListAsync();
 
             ViewBag.Cart = _cartService.GetCart();
             return View(products);

@@ -49,6 +49,7 @@ namespace RoadWorksPro.Data
                     new RoadProduct
                     {
                         Name = "Знак 'Пішохідний перехід'",
+                        Category = "road-signs",
                         Description = "Дорожній знак для позначення пішохідного переходу. Виготовлений з оцинкованої сталі з світловідбиваючою плівкою.",
                         Price = 1250.00m,
                         Dimensions = "700x700 мм",
@@ -60,6 +61,7 @@ namespace RoadWorksPro.Data
                     new RoadProduct
                     {
                         Name = "Сигнальний конус",
+                        Category = "other",
                         Description = "Конус дорожній сигнальний для тимчасового обмеження руху. Яскравий помаранчевий колір з світловідбиваючими смугами.",
                         Price = 450.00m,
                         Dimensions = "Висота 750 мм",
@@ -71,6 +73,7 @@ namespace RoadWorksPro.Data
                     new RoadProduct
                     {
                         Name = "Дорожній бар'єр",
+                        Category = "other",
                         Description = "Пластиковий дорожній бар'єр для організації руху та безпеки дорожніх робіт.",
                         Price = 2800.00m,
                         Dimensions = "1200x800 мм",
@@ -82,6 +85,7 @@ namespace RoadWorksPro.Data
                     new RoadProduct
                     {
                         Name = "Світловідбивач дорожній КД-3",
+                        Category = "other",
                         Description = "Катафот дорожній для розмітки узбіч та розділових смуг.",
                         Price = 180.00m,
                         Dimensions = "100x100x20 мм",
@@ -93,6 +97,7 @@ namespace RoadWorksPro.Data
                     new RoadProduct
                     {
                         Name = "Знак 'Стоп'",
+                        Category = "road-signs",
                         Description = "Знак зупинки обов'язкової. Восьмикутна форма з червоним фоном.",
                         Price = 1450.00m,
                         Dimensions = "700x700 мм",

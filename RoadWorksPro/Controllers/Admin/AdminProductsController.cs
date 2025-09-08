@@ -53,6 +53,7 @@ namespace RoadWorksPro.Controllers.Admin
                 var product = new RoadProduct
                 {
                     Name = model.Name,
+                    Category = model.Category,
                     Description = model.Description,
                     Price = model.Price,
                     Dimensions = model.Dimensions,
@@ -106,6 +107,7 @@ namespace RoadWorksPro.Controllers.Admin
             {
                 Id = product.Id,
                 Name = product.Name,
+                Category = product.Category,
                 Description = product.Description,
                 Price = product.Price,
                 Dimensions = product.Dimensions,
@@ -139,6 +141,7 @@ namespace RoadWorksPro.Controllers.Admin
                     }
 
                     product.Name = model.Name;
+                    product.Category = model.Category;
                     product.Description = model.Description;
                     product.Price = model.Price;
                     product.Dimensions = model.Dimensions;

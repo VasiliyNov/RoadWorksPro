@@ -29,6 +29,10 @@ namespace RoadWorksPro.Models.Entities
         [MaxLength(500)]
         public string? ImagePath { get; set; }
 
+        [Required]
+        [MaxLength(50)]
+        public string Category { get; set; } = "other";
+
         public bool IsActive { get; set; } = true;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

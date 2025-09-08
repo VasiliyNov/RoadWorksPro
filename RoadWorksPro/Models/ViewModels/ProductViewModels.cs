@@ -22,6 +22,10 @@ namespace RoadWorksPro.Models.ViewModels
         [Display(Name = "Розміри")]
         public string? Dimensions { get; set; }
 
+        [Required(ErrorMessage = "Оберіть категорію")]
+        [Display(Name = "Категорія")]
+        public string Category { get; set; } = "other";
+
         [MaxLength(100)]
         [Display(Name = "Матеріал")]
         public string? Material { get; set; }
