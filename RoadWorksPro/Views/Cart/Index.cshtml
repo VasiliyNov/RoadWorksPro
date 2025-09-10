@@ -130,112 +130,194 @@
 
 @section Scripts {
     <script>
-        // Hide cart counter immediately when on cart page
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide cart counter immediately when on cart page
             const counter = document.getElementById('cart-counter');
             if (counter) {
                 counter.style.display = 'none';
             }
-        })();
 
-        // Update quantity
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            input.addEventListener('change', async function() {
-                const productId = this.dataset.productId;
-                const quantity = parseInt(this.value);
+            // Get CSRF token function
+            function getCSRFToken() {
+                const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+                return tokenElement ? tokenElement.value : '';
+            }
 
-                if (quantity < 1) {
-                    this.value = 1;
-                    return;
-                }
+            // Update quantity input
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', async function() {
+                    const productId = this.dataset.productId;
+                    let quantity = parseInt(this.value);
 
-                await updateQuantity(productId, quantity);
+                    if (isNaN(quantity) || quantity < 1) {
+                        this.value = 1;
+                        quantity = 1;
+                    }
+
+                    console.log(`Updating quantity for product ${productId} to ${quantity}`);
+                    await updateQuantity(productId, quantity);
+                });
             });
-        });
 
-        // Increase quantity
-        document.querySelectorAll('.quantity-increase').forEach(button => {
-            button.addEventListener('click', async function() {
-                const productId = this.dataset.productId;
-                const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
-                input.value = parseInt(input.value) + 1;
-                await updateQuantity(productId, parseInt(input.value));
-            });
-        });
+            // Increase quantity
+            document.querySelectorAll('.quantity-increase').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const productId = this.dataset.productId;
+                    const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
 
-        // Decrease quantity
-        document.querySelectorAll('.quantity-decrease').forEach(button => {
-            button.addEventListener('click', async function() {
-                const productId = this.dataset.productId;
-                const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
-                const newValue = parseInt(input.value) - 1;
-                if (newValue >= 1) {
+                    if (!input) {
+                        console.error('Input not found for product:', productId);
+                        return;
+                    }
+
+                    const newValue = parseInt(input.value) + 1;
                     input.value = newValue;
+
+                    console.log(`Increasing quantity for product ${productId} to ${newValue}`);
                     await updateQuantity(productId, newValue);
-                }
+                });
             });
-        });
 
-        // Remove item
-        document.querySelectorAll('.remove-item').forEach(button => {
-            button.addEventListener('click', async function() {
-                if (!confirm('Видалити товар з кошика?')) return;
+            // Decrease quantity
+            document.querySelectorAll('.quantity-decrease').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const productId = this.dataset.productId;
+                    const input = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
 
-                const productId = this.dataset.productId;
-                const response = await fetch(`/Cart/RemoveItem?productId=${productId}`, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    if (!input) {
+                        console.error('Input not found for product:', productId);
+                        return;
+                    }
+
+                    const newValue = parseInt(input.value) - 1;
+                    if (newValue >= 1) {
+                        input.value = newValue;
+                        console.log(`Decreasing quantity for product ${productId} to ${newValue}`);
+                        await updateQuantity(productId, newValue);
                     }
                 });
+            });
 
-                const data = await response.json();
-                if (data.success) {
-                    // Remove item from DOM
-                    document.querySelector(`.cart-item[data-product-id="${productId}"]`).remove();
+            // Remove item
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
 
-                    // Update totals
-                    updateCartDisplay(data);
+                    if (!confirm('Видалити товар з кошика?')) return;
 
-                    // If cart is empty, reload page
-                    if (data.cartCount === 0) {
+                    const productId = this.dataset.productId;
+
+                    try {
+                        const response = await fetch(`/Cart/RemoveItem?productId=${productId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': getCSRFToken()
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        if (data.success) {
+                            // Remove item from DOM
+                            const itemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
+                            if (itemElement) {
+                                itemElement.remove();
+                            }
+
+                            // Update totals
+                            updateCartDisplay(data);
+
+                            // If cart is empty, reload page
+                            if (data.cartCount === 0) {
+                                location.reload();
+                            }
+                        } else {
+                            alert('Помилка при видаленні товару');
+                        }
+                    } catch (error) {
+                        console.error('Error removing item:', error);
+                        alert('Помилка при видаленні товару');
+                    }
+                });
+            });
+
+            // Update quantity function
+            async function updateQuantity(productId, quantity) {
+                try {
+                    console.log(`Making request to update quantity: productId=${productId}, quantity=${quantity}`);
+
+                    const response = await fetch(`/Cart/UpdateQuantity?productId=${productId}&quantity=${quantity}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': getCSRFToken()
+                        }
+                    });
+
+                    console.log('Response status:', response.status);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Response data:', data);
+
+                    if (data.success) {
+                        // Update subtotal for this item
+                        const itemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
+                        if (itemElement) {
+                            const subtotalElement = itemElement.querySelector('.item-subtotal');
+                            if (subtotalElement && data.itemSubtotal) {
+                                subtotalElement.textContent = `₴ ${data.itemSubtotal.toFixed(2)}`;
+                            }
+                        }
+
+                        // Update cart totals
+                        updateCartDisplay(data);
+                    } else {
+                        alert('Помилка при оновленні кількості');
+                        // Revert input value
                         location.reload();
                     }
+                } catch (error) {
+                    console.error('Error updating quantity:', error);
+                    alert('Помилка при оновленні кількості');
+                    // Revert input value
+                    location.reload();
                 }
-            });
+            }
+
+            // Update cart display function
+            function updateCartDisplay(data) {
+                // Update summary
+                const totalElement = document.querySelector('.cart-total');
+                const countElement = document.querySelector('.cart-count');
+
+                if (totalElement && data.cartTotal !== undefined) {
+                    totalElement.textContent = `₴ ${data.cartTotal.toFixed(2)}`;
+                }
+
+                if (countElement && data.cartCount !== undefined) {
+                    countElement.textContent = data.cartCount;
+                }
+
+                // Keep cart counter hidden on cart page
+                const counter = document.getElementById('cart-counter');
+                if (counter) {
+                    counter.style.display = 'none';
+                }
+            }
+
+            // Make functions available globally for debugging
+            window.updateQuantity = updateQuantity;
+            window.updateCartDisplay = updateCartDisplay;
         });
-
-        async function updateQuantity(productId, quantity) {
-            const response = await fetch(`/Cart/UpdateQuantity?productId=${productId}&quantity=${quantity}`, {
-                method: 'POST',
-                headers: {
-                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                }
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                // Update subtotal for this item
-                const itemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
-                if (itemElement) {
-                    itemElement.querySelector('.item-subtotal').textContent = `₴ ${data.itemSubtotal.toFixed(2)}`;
-                }
-
-                // Update cart totals
-                updateCartDisplay(data);
-            }
-        }
-
-        function updateCartDisplay(data) {
-            // Update summary
-            document.querySelector('.cart-total').textContent = `₴ ${data.cartTotal.toFixed(2)}`;
-            document.querySelector('.cart-count').textContent = data.cartCount;
-
-            // Keep cart counter hidden on cart page
-            const counter = document.getElementById('cart-counter');
-            if (counter) {
-                counter.style.display = 'none';
-            }
-        }
     </script>
 }
