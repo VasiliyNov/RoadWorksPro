@@ -29,7 +29,7 @@ namespace RoadWorksPro.Services
             {
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress(
-                    _configuration["Email:SenderName"] ?? "РоадПро",
+                    _configuration["Email:SenderName"] ?? "LineUp",
                     _configuration["Email:SenderEmail"] ?? "noreply@roadpro.ua"
                 ));
                 email.To.Add(MailboxAddress.Parse(to));
@@ -72,7 +72,7 @@ namespace RoadWorksPro.Services
             var adminEmails = _configuration["Email:AdminNotificationEmails"]?.Split(',')
                 ?? new[] { "vakawelli@gmail.com" };
 
-            var subject = "Нове замовлення на сайті РоадПро";
+            var subject = "Нове замовлення на сайті LineUp";
 
             foreach (var adminEmail in adminEmails)
             {
@@ -89,7 +89,7 @@ namespace RoadWorksPro.Services
 
         public async Task SendTestEmailAsync(string to)
         {
-            var subject = "Тестове повідомлення - РоадПро";
+            var subject = "Тестове повідомлення - LineUp";
             var body = $@"
                 <html>
                 <body style='font-family: Arial, sans-serif;'>
@@ -98,7 +98,7 @@ namespace RoadWorksPro.Services
                     <p>Час відправлення (UTC): {DateTime.UtcNow:dd.MM.yyyy HH:mm:ss}</p>
                     <p>Час відправлення (Київ): {DateTime.UtcNow.AddHours(2):dd.MM.yyyy HH:mm:ss}</p>
                     <hr>
-                    <p><small>РоадПро - Система управління</small></p>
+                    <p><small>LineUp - Система управління</small></p>
                 </body>
                 </html>
             ";

@@ -31,7 +31,7 @@ namespace RoadWorksPro.Controllers.Admin
                 SmtpHost = _configuration["Email:SmtpHost"] ?? "smtp.gmail.com",
                 SmtpPort = int.Parse(_configuration["Email:SmtpPort"] ?? "587"),
                 SmtpUser = _configuration["Email:SmtpUser"] ?? "",
-                SenderName = _configuration["Email:SenderName"] ?? "РоадПро",
+                SenderName = _configuration["Email:SenderName"] ?? "LineUp",
                 SenderEmail = _configuration["Email:SenderEmail"] ?? "noreply@roadpro.ua",
                 AdminEmails = _configuration["Email:AdminNotificationEmails"] ?? "vakawelli@gmail.com",
                 TelegramBotToken = _configuration["Telegram:BotToken"] ?? "",

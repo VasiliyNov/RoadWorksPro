@@ -54,13 +54,9 @@
                class="@(currentCategory == "road-marking" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
                 Дорожня розмітка
             </a>
-            <a href="/Portfolio?category=asphalt"
-               class="@(currentCategory == "asphalt" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
-                Ремонт асфальту
-            </a>
-            <a href="/Portfolio?category=signs"
-               class="@(currentCategory == "signs" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
-                Встановлення знаків
+            <a href="/Portfolio?category=equipment"
+               class="@(currentCategory == "equipment" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300") px-6 py-2 rounded-full font-medium transition">
+                Монтаж дорожнього обладнання
             </a>
         </div>
 
@@ -157,8 +153,7 @@
         return category switch
         {
             "road-marking" => "Розмітка",
-            "asphalt" => "Асфальт",
-            "signs" => "Знаки",
+            "equipment" => "Монтаж обладнання",
             _ => "Інше"
         };
     }

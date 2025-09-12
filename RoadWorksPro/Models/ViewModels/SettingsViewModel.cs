@@ -18,7 +18,7 @@ namespace RoadWorksPro.Models.ViewModels
         public string? SmtpPassword { get; set; }
 
         [Display(Name = "Ім'я відправника")]
-        public string SenderName { get; set; } = "РоадПро";
+        public string SenderName { get; set; } = "LineUp";
 
         [Display(Name = "Email відправника")]
         [EmailAddress]
