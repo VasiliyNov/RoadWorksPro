@@ -222,6 +222,16 @@ namespace RoadWorksPro.Controllers.Admin
             var product = await _context.Products.FindAsync(id);
             if (product != null)
             {
+                var hasOrders = await _context.OrderItems
+                    .AnyAsync(oi => oi.ProductId == id);
+
+                if (hasOrders)
+                {
+                    TempData["Message"] = "Не можна видалити товар, який є в замовленнях. Спочатку видаліть замовлення.";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 // Delete image if exists
                 if (!string.IsNullOrEmpty(product.ImagePath))
                 {
@@ -235,7 +245,8 @@ namespace RoadWorksPro.Controllers.Admin
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "Товар успішно видалено!";
+                TempData["Message"] = "Товар успішно видалено!";
+                TempData["MessageType"] = "success";
             }
 
             return RedirectToAction(nameof(Index));
