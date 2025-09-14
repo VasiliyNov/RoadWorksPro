@@ -168,48 +168,46 @@
         @* Footer *@
         <footer class="bg-gray-900 text-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    <div>
+                <div class="flex flex-col md:flex-row md:items-start md:justify-center gap-16">
+
+                    <div class="max-w-xs">
                         <div class="flex items-center mb-4">
                             <svg class="h-8 w-8 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span class="text-xl font-bold">LineUp</span>
                         </div>
-                        <p class="text-gray-400">
+                        <p class="text-gray-400 text-sm leading-relaxed">
                             Професійні дорожні роботи та якісна продукція
                         </p>
                     </div>
+
                     <div>
-                        <h4 class="font-semibold mb-4">Послуги</h4>
+                        <h4 class="font-semibold mb-4">Меню</h4>
                         <ul class="space-y-2 text-gray-400">
-                            <li><a href="/Services" class="hover:text-white transition">Дорожня розмітка</a></li>
-                            <li><a href="/Services" class="hover:text-white transition">Ремонт асфальту</a></li>
-                            <li><a href="/Services" class="hover:text-white transition">Встановлення знаків</a></li>
+                            <li><a href="/Services" class="hover:text-white transition">Послуги</a></li>
+                            <li><a href="/Products" class="hover:text-white transition">Продукція</a></li>
+                            <li><a href="/Portfolio" class="hover:text-white transition">Наші роботи</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4 class="font-semibold mb-4">Продукція</h4>
-                        <ul class="space-y-2 text-gray-400">
-                            <li><a href="/Products" class="hover:text-white transition">Дорожні знаки</a></li>
-                            <li><a href="/Products" class="hover:text-white transition">Сигнальні конуси</a></li>
-                            <li><a href="/Products" class="hover:text-white transition">Світловідбивачі</a></li>
-                        </ul>
-                    </div>
+
                     <div>
                         <h4 class="font-semibold mb-4">Контакти</h4>
-                        <p class="text-gray-400">
-                            +380 (96) 630-16-17<br>
-                            LineUpInfo@rozmitka.com<br>
-                            м. Дніпро, пр. О. Поля, 42
+                        <p class="text-gray-400 text-sm">
+                            +380 (50) 123-45-67<br>
+                            info@lineup.ua<br>
+                            м. Дніпро, вул. Промислова, 15
                         </p>
                     </div>
                 </div>
-                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                    <p>&copy; 2025 LineUp. Всі права захищені.</p>
+
+                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                    <p>&copy; 2024 LineUp. Всі права захищені.</p>
                 </div>
             </div>
         </footer>
+
     </div>
 
     @await RenderSectionAsync("Scripts", required: false)
