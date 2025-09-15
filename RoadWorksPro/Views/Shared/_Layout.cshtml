@@ -64,6 +64,53 @@
         .animate-spin {
             animation: spin 1s linear infinite;
         }
+
+        /* Clients swiper custom styles */
+        .clientsSwiper {
+            padding: 0 50px 40px 50px;
+            position: relative;
+        }
+
+        .clientsSwiper .swiper-slide {
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clientsSwiper .swiper-button-next,
+        .clientsSwiper .swiper-button-prev {
+            width: 40px;
+            height: 40px;
+        }
+
+        .clientsSwiper .swiper-button-next:after,
+        .clientsSwiper .swiper-button-prev:after {
+            font-size: 20px;
+        }
+
+        /* Custom pagination bullets */
+        .clientsSwiper .swiper-pagination-bullet {
+            background: #9ca3af;
+            opacity: 0.5;
+        }
+
+        .clientsSwiper .swiper-pagination-bullet-active {
+            background: #ea580c;
+            opacity: 1;
+        }
+
+        /* Mobile adjustments */
+        @@media (max-width: 640px) {
+            .clientsSwiper {
+                padding: 0 30px 30px 30px;
+            }
+
+            .clientsSwiper .swiper-button-next,
+            .clientsSwiper .swiper-button-prev {
+                display: none;
+            }
+        }
     </style>
 
     @await RenderSectionAsync("Styles", required: false)
