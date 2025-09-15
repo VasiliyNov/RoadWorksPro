@@ -1,0 +1,63 @@
+﻿@model List<RoadWorksPro.Models.Entities.RoadClient>
+@{
+    ViewData["Title"] = "Клієнти";
+    Layout = "_AdminLayout";
+}
+
+<div class="mb-6 flex justify-between items-center">
+    <h2 class="text-2xl font-bold">Наші клієнти</h2>
+    <a href="/Admin/Clients/Create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+        + Додати клієнта
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Логотип</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Назва</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Порядок</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дії</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            @foreach (var client in Model)
+            {
+                <tr>
+                    <td class="px-6 py-4">
+                        @if (!string.IsNullOrEmpty(client.LogoPath))
+                        {
+                            <img src="@client.LogoPath" alt="@client.Name" class="h-12 w-auto">
+                        }
+                        else
+                        {
+                            <div class="h-12 w-12 bg-gray-200 rounded flex items-center justify-center">
+                                <span class="text-gray-400 text-xs">No logo</span>
+                            </div>
+                        }
+                    </td>
+                    <td class="px-6 py-4 font-medium">@client.Name</td>
+                    <td class="px-6 py-4">@client.DisplayOrder</td>
+                    <td class="px-6 py-4">
+                        @if (client.IsActive)
+                        {
+                            <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Активний</span>
+                        }
+                        else
+                        {
+                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded">Неактивний</span>
+                        }
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-3">
+                            <a href="/Admin/Clients/Edit/@client.Id" class="text-blue-600 hover:text-blue-900">Редагувати</a>
+                            <a href="/Admin/Clients/Delete/@client.Id" class="text-red-600 hover:text-red-900">Видалити</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

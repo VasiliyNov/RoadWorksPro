@@ -22,6 +22,8 @@ namespace RoadWorksPro.Data
 
         public DbSet<PortfolioImage> PortfolioImages { get; set; }
 
+        public DbSet<RoadClient> Clients { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

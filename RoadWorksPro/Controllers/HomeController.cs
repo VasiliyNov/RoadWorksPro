@@ -40,14 +40,11 @@ namespace RoadWorksPro.Controllers
                     .ToListAsync(),
 
                 // Sample clients
-                Clients = new List<CompanyClient>
-                {
-                    new() { Name = "Укравтодор", LogoUrl = "/images/clients/ukravtodor.png" },
-                    new() { Name = "Київавтодор", LogoUrl = "/images/clients/kyivavtodor.png" },
-                    new() { Name = "WOG", LogoUrl = "/images/clients/wog.png" },
-                    new() { Name = "ОККО", LogoUrl = "/images/clients/okko.png" },
-                    new() { Name = "Епіцентр", LogoUrl = "/images/clients/epicentr.png" }
-                }
+                Clients = await _context.Clients
+                    .Where(c => c.IsActive)
+                    .OrderBy(c => c.DisplayOrder)
+                    .ThenBy(c => c.Name)
+                    .ToListAsync()
             };
 
             return View(viewModel);

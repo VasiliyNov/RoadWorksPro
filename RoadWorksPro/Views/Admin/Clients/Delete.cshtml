@@ -1,0 +1,88 @@
+﻿@model RoadWorksPro.Models.Entities.RoadClient
+@{
+    ViewData["Title"] = "Видалення клієнта";
+    Layout = "_AdminLayout";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-red-600 mb-2">Видалення клієнта</h2>
+            <p class="text-gray-600">Ви впевнені, що хочете видалити цього клієнта?</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+            <div class="space-y-4">
+                @if (!string.IsNullOrEmpty(Model.LogoPath))
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-700 mb-2">Логотип:</p>
+                        <img src="@Model.LogoPath" alt="@Model.Name" class="h-20 w-auto">
+                    </div>
+                }
+
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Назва компанії:</p>
+                    <p class="text-lg">@Model.Name</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.WebsiteUrl))
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-700">Веб-сайт:</p>
+                        <p>@Model.WebsiteUrl</p>
+                    </div>
+                }
+
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Порядок відображення:</p>
+                    <p>@Model.DisplayOrder</p>
+                </div>
+
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Статус:</p>
+                    <p>
+                        @if (Model.IsActive)
+                        {
+                            <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded">Активний</span>
+                        }
+                        else
+                        {
+                            <span class="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded">Неактивний</span>
+                        }
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-sm font-medium text-gray-700">Додано:</p>
+                    <p>@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div class="flex items-start">
+                <svg class="h-5 w-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div>
+                    <p class="text-sm text-red-800">
+                        <strong>Увага!</strong> Ця дія незворотна. Логотип клієнта також буде видалено з сервера.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="/Admin/Clients/Delete/@Model.Id" class="flex gap-4">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition">
+                Видалити клієнта
+            </button>
+
+            <a href="/Admin/Clients" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition">
+                Скасувати
+            </a>
+        </form>
+    </div>
+</div>
