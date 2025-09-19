@@ -372,7 +372,7 @@ FodyWeavers.xsd
 
 appsettings.Production.json
 appsettings.*.json
-appsettings.json
+!appsettings.json
 appsettings.Development.json
 
 *.bak

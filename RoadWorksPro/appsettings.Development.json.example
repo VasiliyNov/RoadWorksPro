@@ -1,0 +1,38 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=roadworks_dev.db"
+  },
+  "Email": {
+    "SmtpHost": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "SmtpUser": "YOUR_EMAIL@gmail.com",
+    "SmtpPassword": "YOUR_APP_PASSWORD_HERE",
+    "SenderName": "LineUp",
+    "SenderEmail": "YOUR_EMAIL@gmail.com",
+    "AdminNotificationEmails": "admin@example.com"
+  },
+  "Telegram": {
+    "BotToken": "YOUR_BOT_TOKEN_HERE",
+    "ChatIds": "YOUR_CHAT_ID_HERE"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Information",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    }
+  },
+  "_instructions": {
+    "note": "Переименуйте этот файл в appsettings.Development.json и заполните своими данными",
+    "gmail": {
+      "step1": "Включите двухфакторную аутентификацию в Google Account",
+      "step2": "Создайте пароль приложения: https://myaccount.google.com/apppasswords",
+      "step3": "Используйте этот пароль в поле SmtpPassword"
+    },
+    "telegram": {
+      "step1": "Создайте бота через @BotFather в Telegram",
+      "step2": "Получите токен бота",
+      "step3": "Узнайте свой Chat ID через @userinfobot"
+    }
+  }
+}
