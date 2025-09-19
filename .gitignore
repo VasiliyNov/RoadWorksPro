@@ -362,6 +362,23 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+*.db
+*.sqlite
+*.sqlite3
+
 # SQLite temp files
 *.db-shm
 *.db-wal
+
+appsettings.Production.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+*.bak
+*.backup
+
+logs/
+*.log
+
+.vscode/
